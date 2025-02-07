@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti Amor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            font-family: 'Dancing Script', cursive;
+            flex-direction: column;
+            text-align: center;
+        }
+        .contenedor-sobre {
+            position: relative;
+            width: 400px;
+            height: 280px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        .sobre {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .cuerpo-sobre {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 10px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+        .solapa-sobre {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #ffefef 60%, #ffc7c7 100%);
+            transform-origin: top center;
+            transition: all 0.6s ease;
+            border-radius: 10px;
+            clip-path: polygon(0 0, 100% 0, 50% 40%, 0 0);
+            z-index: 2;
+        }
+        .sello {
+            position: absolute;
+            top: 35%;
+            left: 43%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: latido 1.2s infinite;
+            transition: opacity 0.5s ease;
+            z-index: 3;
+        }
+        .contenedor-sobre.abierto .sello {
+            opacity: 0;
+        }
+        .contenedor-sobre.abierto .solapa-sobre {
+            transform: rotateX(180deg) translateY(-30px);
+            opacity: 0;
+        }
+        .mensaje {
+            z-index: 2;
+            position: absolute;
+            width: 95%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.5s 0.3s ease;
+            border: 2px solid #ffc7c7;
+        }
+        .contenedor-sobre.abierto .mensaje {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        .corazon {
+            color: #ff6b6b;
+            font-size: 50px;
+            animation: latido 1.2s infinite;
+        }
+        .boton-musica {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .boton-musica:hover {
+            background: #ff3b3b;
+        }
+        @keyframes latido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-sobre" onclick="siguienteMensaje()">
+        <div class="sello">💝</div>
+        <div class="sobre">
+            <div class="solapa-sobre"></div>
+            <div class="cuerpo-sobre"></div>
+        </div>
+        <div class="mensaje" id="mensaje">
+            <h1 id="titulo"></h1>
+            <p id="linea1"></p>
+            <p id="linea2"></p>
+            <p id="linea3"></p>
+            <div class="corazon">❤️</div>
+        </div>
+    </div>
+
+
+    <script>
+        let mensajes = [
+            { titulo: "¡Para Ti, Mi Amor! 🌷", linea1: "Porque cada día a tu lado es un regalo.", linea2: "Cada sonrisa tuya ilumina mi mundo.", linea3: "Te amo con todo mi corazón. 🥰" },
+            { titulo: "Siempre Contigo 💕", linea1: "Eres mi felicidad y mi paz.", linea2: "No hay día en que no piense en ti.", linea3: "Eres mi todo." },
+            { titulo: "Mi Razón de Ser 💖", linea1: "Desde que te conocí, supe que eras especial.", linea2: "Mi amor por ti crece cada día.", linea3: "Eres mi destino." },
+            { titulo: "Tú Eres Mi Sueño ✨", linea1: "Siempre soñé con alguien como tú.", linea2: "Ahora que te tengo, no te quiero soltar.", linea3: "Eres mi realidad más hermosa." },
+            { titulo: "Eres Mi Hogar 🏡", linea1: "No importa dónde esté, si estoy contigo.", linea2: "Tus abrazos son mi refugio.", linea3: "Siempre quiero estar a tu lado." },
+            { titulo: "Nuestro Amor es Magia ✨", linea1: "Cada momento contigo es un hechizo de amor.", linea2: "No hay nada más mágico que amarte.", linea3: "Eres mi encanto eterno." },
+            { titulo: "Mi Felicidad 🌞", linea1: "Tu amor ilumina mi vida.", linea2: "Cada día contigo es un día feliz.", linea3: "Gracias por ser mi alegría." },
+            { titulo: "Te Amo Inmensamente 💞", linea1: "No hay palabras suficientes para expresarlo.", linea2: "Solo sé que mi amor por ti no tiene límites.", linea3: "Eres mi todo, hoy y siempre." },
+            { titulo: "Eres Mi Inspiración 🌹", linea1: "Tu amor me motiva a ser mejor cada día.", linea2: "Eres mi musa, mi motor, mi todo.", linea3: "Contigo, el mundo es un lugar hermoso." },
+            { titulo: "Eres Mi Historia Favorita 📖", linea1: "Si la vida fuera un libro, tú serías mi mejor capítulo.", linea2: "Nuestra historia es mi cuento de amor favorito.", linea3: "Sigamos escribiéndola juntos." }
+        ];
+        let indice = 0;
+        function siguienteMensaje() {
+            let carta = document.querySelector('.contenedor-sobre');
+            if (!carta.classList.contains('abierto')) {
+                carta.classList.add('abierto');
+            } else {
+                indice++;
+                if (indice >= mensajes.length) {
+                    indice = 0;
+                    carta.classList.remove('abierto');
+                }
+            }
+            document.getElementById('titulo').innerText = mensajes[indice].titulo;
+            document.getElementById('linea1').innerText = mensajes[indice].linea1;
+            document.getElementById('linea2').innerText = mensajes[indice].linea2;
+            document.getElementById('linea3').innerText = mensajes[indice].linea3;
+        }
+    </script>
+
+    <button class="boton-musica" onclick="toggleMusica()">🎶 Reproducir Música</button>
+    <iframe id="musica" width="0" height="0" 
+        src="https://www.youtube.com/embed/MqazV4hbu8E?enablejsapi=1&autoplay=0&loop=1&playlist=MqazV4hbu8E" 
+        frameborder="0" allow="autoplay"></iframe>
+    <script>
+        let musicaReproduciendo = false;
+        function toggleMusica() {
+            let musica = document.getElementById("musica").contentWindow;
+            if (musicaReproduciendo) {
+                musica.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                document.querySelector('.boton-musica').textContent = "🎶 Reproducir Música";
+            } else {
+                musica.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                document.querySelector('.boton-musica').textContent = "⏸️ Pausar Música";
+            }
+            musicaReproduciendo = !musicaReproduciendo;
+        }
+    </script>
+</body>
+</html>
